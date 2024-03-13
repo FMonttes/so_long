@@ -6,7 +6,7 @@
 /*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:57:36 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 12:42:40 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/13 13:55:04 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
 # include "./get_next_line/get_next_line.h"
-# include "./ft_printf/libftprintf.h"
 # include <unistd.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -59,7 +58,7 @@ char	**ft_split(char const *s, char c);
 int		creat_map(t_game *data);
 void	start_map(t_game *data);
 void    get_size(t_game *data);
-void	images(t_game *data, int img_width, int img_height);
+void	images(t_game *data);
 void    free_map(char **map);
 void	move_w(t_game *data);
 void	move_s(t_game *data);

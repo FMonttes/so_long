@@ -6,7 +6,7 @@
 /*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:20:45 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 12:35:29 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/13 13:50:35 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void    free_map(char **map)
 
 int     exit_game(t_game *data)
 {
-    free_map(data->map);
     mlx_destroy_image(data->mlx, data->floor);
     mlx_destroy_image(data->mlx, data->wall);
 	mlx_destroy_image(data->mlx, data->player->img_player);
@@ -37,6 +36,8 @@ int     exit_game(t_game *data)
     mlx_destroy_window(data->mlx, data->mlx_win);
     mlx_destroy_display(data->mlx);
     free(data->mlx);
+    free(data->player);
+    free_map(data->map);
     exit(0);
     return (0);
 }

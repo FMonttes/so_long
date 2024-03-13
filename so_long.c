@@ -6,7 +6,7 @@
 /*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:13:41 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 12:54:58 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/13 13:55:01 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int		main(int ac, char **av)
 {
 	t_game data;
 
-	if (data.map)
-		free_map(data.map);
+	/*if (data.map)
+		free_map(data.map);*/
 	if (ac == 2)
 	{
 		data.map = fill_map(av[1]);
