@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start_moves.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.rio>           +#+  +:+       +#+        */
+/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 13:03:41 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/11 16:07:10 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/13 12:55:00 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	game_events(int keycode, t_game *data)
 {
 	if (keycode == 119 || keycode == 65362)
 	{	
-		data->player->y--;
+		data->player->y -= 1;
 		move_w(data);
 	}
 	else if (keycode == 115 || keycode == 65364)
@@ -41,7 +41,10 @@ static int	keypress(int keycode, t_game *data)
 	if (keycode == 65307 || keycode == 113)
 		exit_game(data);
 	else if (!data->endgame)
+	{
 		game_events(keycode, data);
+		//ft_printf("moves: %d\n", data->moves);
+	}
 }
 
 void start_moves(t_game *data)

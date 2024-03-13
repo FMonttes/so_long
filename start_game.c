@@ -6,7 +6,7 @@
 /*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 14:09:50 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/12 17:26:07 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/13 12:42:58 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void    start_stack(t_game *data)
     data->n_exit = 0;
     data->n_player = 0;
     data->n_colects = 0;
+	data->img_height = 50;
+	data->img_width = 50;
 }
 
 void	start_game(t_game *data)
