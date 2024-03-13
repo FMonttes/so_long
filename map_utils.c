@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.rio>           +#+  +:+       +#+        */
+/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/01 11:27:17 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/06 14:38:10 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:02:13 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,36 @@
 
 void	images(t_game *data, int img_width, int img_height)
 {
-	data->enemy = mlx_xpm_file_to_image(data->mlx, "enemy.xpm", &img_width, &img_height);
-	data->floor = mlx_xpm_file_to_image(data->mlx, "floor.xpm", &img_width, &img_height);
-	data->player = mlx_xpm_file_to_image(data->mlx, "player.xpm", &img_width, &img_height);
-	data->wall = mlx_xpm_file_to_image(data->mlx, "wall.xpm", &img_width, &img_height);
-	data->colect = mlx_xpm_file_to_image(data->mlx, "colect.xpm", &img_width, &img_height);
+	data->player = malloc(sizeof(t_player));
+	data->exit = mlx_xpm_file_to_image(data->mlx, "./textures/exit.xpm", &img_width, &img_height);
+	data->enemy = mlx_xpm_file_to_image(data->mlx, "./textures/enemy.xpm", &img_width, &img_height);
+	data->floor = mlx_xpm_file_to_image(data->mlx, "./textures/floor.xpm", &img_width, &img_height);
+	data->player->img_player = mlx_xpm_file_to_image(data->mlx, "./textures/player.xpm", &img_width, &img_height);
+	data->wall = mlx_xpm_file_to_image(data->mlx, "./textures/wall.xpm", &img_width, &img_height);
+	data->colect = mlx_xpm_file_to_image(data->mlx, "./textures/colect.xpm", &img_width, &img_height);
 }
 
-char	**fill_map(t_game *data)
+static void	img_put(t_game *data, void *img, int x, int y)
+{
+	mlx_put_image_to_window(data->mlx, data->mlx_win, img, x * 50, y * 50);
+}
+
+static void	player(t_game *data, void *img, int x, int y)
+{
+	data->player->x = x;
+	data->player->y = y;
+	img_put(data, img, x, y);	
+}
+
+char	**fill_map(char *path)
 {
 	int		fd;
 	char	*line;
 	char	*holder;
 	char	*holder_map;
+	char	**map;
 
-	fd = open("./maps/map1.ber", O_RDONLY);
+	fd = open(path, O_RDONLY);
 	holder_map = ft_strdup("");
 	while (1)
 	{
@@ -39,20 +54,19 @@ char	**fill_map(t_game *data)
 		holder_map = ft_strjoin(holder, line);
 		free(line);
 	}
-	data->map = ft_split(holder_map, '\n');
+	map = ft_split(holder_map, '\n');
 	free(holder_map);
 	close(fd);
-	return (data->map);
+	return (map);
 }
 
-void	creat_map(t_game *data)
+int		creat_map(t_game *data)
 {
 	int		i;
 	int		x;
 	int		img_width;
 	int		img_height;
-
-	data->map = fill_map(data);
+	
 	img_width = 50;
 	img_height = 50;
 	images(data, img_width, img_height);
@@ -60,20 +74,23 @@ void	creat_map(t_game *data)
 	while (data->map[i])
 	{
 		x = 0;
-		while (data->map[i][x])
+		while (data->map[i][x] != '\0')
 		{
 			if (data->map[i][x] == '0')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->floor, x * 50, i * 50);
+				img_put(data, data->floor, x, i);
 			else if(data->map[i][x] == '1')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->wall, x * 50, i * 50);
+				img_put(data, data->wall, x, i);
 			else if (data->map[i][x] ==	'C')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->colect, x * 50, i * 50);
+				img_put(data, data->colect, x, i);
 			else if (data->map[i][x] == 'P')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->player, x * 50, i * 50);
+				player(data, data->player->img_player, x, i);
 			else if (data->map[i][x] == 'K')
-				mlx_put_image_to_window(data->mlx, data->mlx_win, data->enemy, x * 50, i * 50);
+				img_put(data, data->enemy, x, i);
+			else if (data->map[i][x] == 'E')
+				img_put(data, data->exit, x, i);
 			x++;	
 		}
 		i++;
 	}
+	return (0);
 }

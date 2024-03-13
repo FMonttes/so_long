@@ -3,21 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.rio>           +#+  +:+       +#+        */
+/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:13:41 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/06 13:28:25 by fmontes          ###   ########.fr       */
+/*   Updated: 2024/03/12 13:28:37 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <stdio.h>
 
 int		main()
 {
 	t_game *data = malloc(sizeof(t_game));
-	data->mlx = mlx_init();
-	data->mlx_win = mlx_new_window(data->mlx, 700, 400, "so_Long");
-	//start_map(data);
-	creat_map(data);
+	char **map;
+
+	map = fill_map("./maps/map2.ber");
+	data->map = map;
+	start_game(data);
+	start_moves(data);
 	mlx_loop(data->mlx);
 }
