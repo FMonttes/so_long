@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   ft_putunsgnbr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fmontes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 16:18:59 by felipe            #+#    #+#             */
-/*   Updated: 2024/03/15 16:19:07 by felipe           ###   ########.fr       */
+/*   Created: 2023/10/31 14:15:54 by fmontes           #+#    #+#             */
+/*   Updated: 2023/11/06 11:59:34 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libftprintf.h"
 
-int	main(int ac, char **av)
+int	ft_putunsgnbr(unsigned int num)
 {
-	t_game	game;
+	static unsigned int		count;
 
-	if (ac == 2)
-	{
-		gameplay(av[1], &game);
-	}
-	else
-	{
-		ft_printf("Error\nInvalid Sytax\n");
-		exit(1);
-	}
-	return (0);
+	count = 0;
+	if (num >= 10)
+		ft_putunsgnbr(num / 10);
+	count += ft_putchar((num % 10) + 48);
+	return (count);
 }

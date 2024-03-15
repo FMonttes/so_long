@@ -3,54 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   start_moves.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 13:03:41 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 12:55:00 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:21:28 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:21:39 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-static void	game_events(int keycode, t_game *data)
+static void	game_events(int keycode, t_game *game)
 {
-	if (keycode == 119 || keycode == 65362)
-	{	
-		data->player->y -= 1;
-		move_w(data);
-	}
-	else if (keycode == 115 || keycode == 65364)
+	if (keycode == KEY_W || keycode == KEY_UP)
 	{
-		data->player->y += 1;
-		move_s(data);
+		game->player->y -= 1;
+		player_w(game);
 	}
-	else if (keycode == 100 || keycode == 65363)
+	else if (keycode == KEY_S || keycode == KEY_DOWN)
 	{
-		data->player->x += 1;
-		move_d(data);
+		game->player->y += 1;
+		player_s(game);
 	}
-	else if (keycode == 97 || keycode == 65361)
+	else if (keycode == KEY_D || keycode == KEY_RIGHT)
 	{
-		data->player->x -= 1;
-		move_a(data);
+		game->player->x += 1;
+		player_d(game);
+	}
+	else if (keycode == KEY_A || keycode == KEY_LEFT)
+	{
+		game->player->x -= 1;
+		player_a(game);
 	}
 }
 
-static int	keypress(int keycode, t_game *data)
+static int	keypress(int keycode, t_game *game)
 {
-	if (keycode == 65307 || keycode == 113)
-		exit_game(data);
-	else if (!data->endgame)
+	if (keycode == ESC || keycode == KEY_Q)
+		exit_game(game);
+	else if (!game->endgame)
 	{
-		game_events(keycode, data);
-		//ft_printf("moves: %d\n", data->moves);
+		game_events(keycode, game);
+		ft_printf("Moves: %d\n", game->moves);
 	}
+	return (0);
 }
 
-void start_moves(t_game *data)
+void	start_moves(t_game *game)
 {
-	mlx_hook(data->mlx_win, KeyPress, KeyPressMask, keypress, data);
-    mlx_hook(data->mlx_win, DestroyNotify, StructureNotifyMask, exit_game, data);
-    mlx_hook(data->mlx_win, FocusIn, FocusChangeMask, creat_map, data);
-	mlx_loop(data->mlx);
+	mlx_hook(game->win, KeyPress, KeyPressMask, keypress, game);
+	mlx_hook(game->win, DestroyNotify, StructureNotifyMask, exit_game, game);
+	mlx_hook(game->win, FocusIn, FocusChangeMask, generate_map, game);
+	mlx_loop(game->mlx);
 }

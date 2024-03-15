@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.c                                          :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fmontes <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 16:18:59 by felipe            #+#    #+#             */
-/*   Updated: 2024/03/15 16:19:07 by felipe           ###   ########.fr       */
+/*   Created: 2023/10/31 14:10:56 by fmontes           #+#    #+#             */
+/*   Updated: 2023/10/31 14:12:55 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "libftprintf.h"
 
-int	main(int ac, char **av)
+int	ft_putchar(char c)
 {
-	t_game	game;
-
-	if (ac == 2)
-	{
-		gameplay(av[1], &game);
-	}
-	else
-	{
-		ft_printf("Error\nInvalid Sytax\n");
-		exit(1);
-	}
-	return (0);
+	write(1, &c, 1);
+	return (1);
 }

@@ -3,116 +3,115 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/12 10:39:22 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/12 17:26:08 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:15:28 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:15:50 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int   check_map(t_game *data)
+static int	is_retangular(char **map)
 {
-    int     i;
-    int     x;
+	int	i;
 
-    start_stack(data);
-    i = 0;
-    while (data->map[i])
-    {
-        x = 0;
-        while (data->map[i][x])
-        {
-            if (data->map[i][x] == 'E')
-                data->n_exit++;
-            else if (data->map[i][x] == 'C')
-                data->n_colects++;
-            else if (data->map[i][x] == 'P')
-                data->n_player++;
-            x++;
-        }
-        i++;
-    }
-    if (data->n_exit != 1 || data->n_player != 1 || data->n_colects < 1)
-        return (1);
-    else
-        return (0);
+	i = 1;
+	if (!map)
+		return (0);
+	while (map[i] != NULL)
+	{
+		if (ft_strlen(map[i]) != ft_strlen(map[0]))
+		{
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
-int     is_retangular(t_game *data)
+static int	is_wall(char **map)
 {
-    int     i;
-    int     x;
+	int	i;
+	int	j;
 
-    x = 1;
-    i = ft_strlen(data->map[0]);
-    while (data->map[x])
-    {
-        if (ft_strlen(data->map[x++]) != i)
-            return (1);
-    }
-    if (data->width != data->height)
-        return (0);
-    return (1);
+	i = 0;
+	if (map[i] == NULL)
+		return (1);
+	while (map[i] != NULL)
+		i++;
+	j = 0;
+	while (map[0][j] && map[i - 1][j])
+	{
+		if (map[0][j] != '1' || map[i - 1][j] != '1')
+			return (0);
+		j++;
+	}
+	i = 1;
+	while (map[i])
+	{
+		if (map[i][0] != '1' || map[i][ft_strlen(map[i]) - 1] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void    get_size(t_game *data)
+static int	is_validate(char **map)
 {
-    int     i;
+	int	i;
+	int	j;
 
-    i = 0;
-    data->width = ft_strlen(data->map[0]) * 50;
-    while (data->map[i])
-        i++;
-    data->height = i * 50;           
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] != 'P' && map[i][j] != 'E' && map[i][j] != 'C'
+				&& map[i][j] != '0' && map[i][j] != '1' && map[i][j] != 'K')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
-int     wall_check(t_game *data)
+static int	is_pec(t_game *game)
 {
-    int     i;
-    int     x;
+	int	i;
+	int	j;
 
-    i = 0;
-    x = 0;
-    while (data->map[0][x] == '1')
-        x++;
-    while (data->map[++i])
-    {
-        x = 0;
-        while (data->map[i][++x])
-        {
-            if (data->map[i][0] != '1')
-                return (1);
-        }
-        if (data->map[i][x - 1] != '1')
-            return (1);
-    }
-    x = 0;
-    while (data->map[i - 1][x] != '\0')
-    {
-        if (data->map[i - 1][x] != '1')
-            return (1);
-        x++;
-    }
+	game->n_colects = 0;
+	game->n_player = 0;
+	game->n_exit = 0;
+	i = 0;
+	while (game->map[i])
+	{
+		j = 0;
+		while (game->map[i][j])
+		{
+			if (game->map[i][j] == 'P')
+				game->n_player++;
+			if (game->map[i][j] == 'E')
+				game->n_exit++;
+			if (game->map[i][j] == 'C')
+				game->n_colects++;
+			j++;
+		}
+		i++;
+	}
+	if (game->n_player != 1 || game->n_colects == 0 || game->n_exit != 1)
+		return (0);
+	return (1);
 }
 
-int     char_check(t_game *data)
+int	map_valid(t_game *game)
 {
-    int     i;
-    int     x;
-
-    i = 0;
-    while (data->map[i])
-    {
-        x = 0;
-        while (data->map[i][x])
-        {
-            if (data->map[i][x] != 'P' && data->map[i][x] != 'E' && data->map[i][x] != '1'
-            && data->map[i][x] != '0' && data->map[i][x] != 'C' && data->map[i][x] != 'K')
-                return (1);
-            x++;    
-        }
-        i++;
-    }
+	if (is_retangular(game->map)
+		&& is_wall(game->map) && is_validate(game->map)
+		&& is_pec(game) && size_map(game) && validate_block(game->map))
+		return (1);
+	return (0);
 }

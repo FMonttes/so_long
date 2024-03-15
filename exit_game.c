@@ -3,41 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   exit_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 13:20:45 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 13:50:35 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:16:56 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:17:10 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void    free_map(char **map)
+void	free_map(char **map)
 {
-    int     i;
+	int	i;
 
-    i = 0;
-    while (map[i] != NULL)
-    {
-        free(map[i]);
-        i++;
-    }
-    free(map);
+	i = 0;
+	while (map[i] != NULL)
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
 }
 
-int     exit_game(t_game *data)
+int	exit_game(t_game *game)
 {
-    mlx_destroy_image(data->mlx, data->floor);
-    mlx_destroy_image(data->mlx, data->wall);
-	mlx_destroy_image(data->mlx, data->player->img_player);
-    mlx_destroy_image(data->mlx, data->colect);
-    mlx_destroy_image(data->mlx, data->exit);
-    mlx_destroy_image(data->mlx, data->enemy);
-    mlx_destroy_window(data->mlx, data->mlx_win);
-    mlx_destroy_display(data->mlx);
-    free(data->mlx);
-    free(data->player);
-    free_map(data->map);
-    exit(0);
-    return (0);
+	free_map(game->map);
+	mlx_destroy_image(game->mlx, game->img_floor);
+	mlx_destroy_image(game->mlx, game->img_wall);
+	mlx_destroy_image(game->mlx, game->player->img_player);
+	mlx_destroy_image(game->mlx, game->img_colect);
+	mlx_destroy_image(game->mlx, game->img_exit);
+	mlx_destroy_image(game->mlx, game->img_enemy);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+	free(game->player);
+	exit(0);
+	return (0);
 }

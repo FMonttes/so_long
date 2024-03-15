@@ -3,72 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 13:57:36 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 13:55:04 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:16:34 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:16:41 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-
-# include "../minilibx-linux/mlx.h"
-# include <stdlib.h>
-# include "./get_next_line/get_next_line.h"
-# include <unistd.h>
+# include "../minilibx/mlx.h"
 # include <X11/X.h>
+# include "./gnl/get_next_line.h"
+# include "./ft_printf/libftprintf.h"
 # include <X11/keysym.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# define ESC 65307
+# define KEY_A 97
+# define KEY_W 119
+# define KEY_D 100
+# define KEY_S 115
+# define KEY_Q 113
+# define KEY_LEFT 65361
+# define KEY_UP 65362
+# define KEY_RIGHT 65363
+# define KEY_DOWN 65364
+# define MLX_ERROR 1
 
 typedef struct s_player
 {
-	void	*img_player;
-	int		x;
-	int		y;
-}	t_player;
+	void		*img_player;
+	int			x;
+	int			y;
+}				t_player;
 
-typedef struct	s_game
+typedef struct s_game
 {
-	void	*mlx;
-	void	*mlx_win;
-	void	*floor;
-	void	*enemy;
-	void	*wall;
-	void	*colect;
-	void	*exit;
+	void		*mlx;
+	void		*win;
+	char		**map;
+	void		*img_wall;
+	void		*img_floor;
+	void		*img_enemy;
+	void		*img_colect;
+	void		*img_exit;
 	t_player	*player;
-	int		width;
-	int		img_width;
-	int		img_height;
-	int		height;
-	int		moves;
-	int		n_player;
-	int		n_exit;
-	int		n_colects;
-	int		endgame;
-	char	**map;
+	int			map_h;
+	int			map_w;
+	int			img_w;
+	int			img_h;
+	int			n_player;
+	int			n_exit;
+	int			n_colects;
+	int			n_enemys;
+	int			moves;
+	int			endgame;
+	int			width;
+	int			height;
 }				t_game;
 
-int		map_size(t_game *data);
-void	start_game(t_game *data);
-void	malloc_map(t_game *data);
-int    check_map(t_game *data);
-char	**fill_map(char *path);
-char	**ft_split(char const *s, char c);
-int		creat_map(t_game *data);
-void	start_map(t_game *data);
-void    get_size(t_game *data);
-void	images(t_game *data);
-void    free_map(char **map);
-void	move_w(t_game *data);
-void	move_s(t_game *data);
-void	move_d(t_game *data);
-void	move_a(t_game *data);
-void    start_stack(t_game *data);
-int     char_check(t_game *data);
-int     is_retangular(t_game *data);
-int     wall_check(t_game *data);
-int		exit_game(t_game *data);
-void	start_moves(t_game *data);
+void			start_game(t_game *game);
+int				generate_map(t_game *game);
+char			**read_map(char *path);
+char			**ft_split(char const *s, char c);
+void			img_initial(t_game *game);
+int				get_size(char *path);
+void			player_w(t_game *game);
+int				exit_game(t_game *game);
+void			start_moves(t_game *game);
+int				map_valid(t_game *game);
+void			free_map(char **map);
+int				size_map(t_game *game);
+int				validate_block(char **map);
+int				arg_valid(char *av);
+void			gameplay(char *av, t_game *game);
+// moves player
+void			player_w(t_game *game);
+void			player_s(t_game *game);
+void			player_d(t_game *game);
+void			player_a(t_game *game);
 
 #endif

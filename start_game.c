@@ -3,53 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   start_game.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 14:09:50 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 13:55:05 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:17:41 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:17:48 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void    start_stack(t_game *data)
+int	arg_valid(char *av)
 {
-    data->n_exit = 0;
-    data->n_player = 0;
-    data->n_colects = 0;
+	int	i;
+
+	if (!av)
+		return (0);
+	i = 0;
+	while (av[i])
+		i++;
+	i -= 1;
+	if (av[i] == 'r' && av[i - 1] == 'e'
+		&& av[i - 2] == 'b' && av[i - 3] == '.')
+		return (1);
+	ft_printf("Error");
+	exit(1);
+	return (0);
 }
 
-void	start_game(t_game *data)
+int	validate_block(char **map)
 {
-	int		i; 
-	
-	i = check_map(data);
-	data->endgame = 0;
-	data->moves = 0;
-	data->mlx = mlx_init();
-	if (i == 1)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
 	{
-		write(1, "error\n", 6);
-		exit(1);
+		j = 0;
+		while (map[i][j])
+		{
+			if ((map[i][j] == 'E' || map[i][j] == 'P' || map[i][j] == 'C')
+				&& (map[i][j + 1] == '1' && map[i][j - 1] == '1'
+				&& map[i + 1][j] == '1' && map[i - 1][j] == '1'))
+				return (0);
+			j++;
+		}
+		i++;
 	}
-	get_size(data);
-	if (is_retangular(data) == 1)
-	{
-		write(1, "error\n", 6);
-		exit(1);
-	}
-	if (wall_check(data) == 1)
-	{
-		write(1, "error\n", 6);
-		exit(1);
-	}
-	if (char_check(data) == 1)
-	{
-		write(1, "error\n", 6);
-		exit(1);
-	}
-	data->mlx_win = mlx_new_window(data->mlx, data->width, data->height, "so_long");
-	images(data);
-	creat_map(data);
+	return (1);
 }
 
+void	gameplay(char *av, t_game *game)
+{
+	game->map = read_map(av);
+	if (arg_valid(av) && map_valid(game))
+	{
+		start_game(game);
+		start_moves(game);
+		mlx_loop(game->mlx);
+	}
+	else
+	{
+		if (game->map)
+		{
+			free_map(game->map);
+			ft_printf("Error\nInvalid Map\n");
+			exit(1);
+		}
+	}
+}

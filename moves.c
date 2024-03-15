@@ -3,111 +3,111 @@
 /*                                                        :::      ::::::::   */
 /*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
+/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 12:27:09 by fmontes           #+#    #+#             */
-/*   Updated: 2024/03/13 12:55:01 by fmontes          ###   ########.fr       */
+/*   Created: 2024/03/15 16:20:37 by felipe            #+#    #+#             */
+/*   Updated: 2024/03/15 16:20:43 by felipe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	move_w(t_game *data)
+void	player_w(t_game *game)
 {
-	if ((data->map[data->player->y][data->player->x] == 'E'
-	 && data->n_colects == 0) || 
-	 (data->map[data->player->y][data->player->x] == 'K'))
+	if ((game->map[game->player->y][game->player->x] == 'E'
+		&& game->n_colects == 0)
+		|| (game->map[game->player->y][game->player->x] == 'K'))
 	{
-		data->map[data->player->y + 1][data->player->x] = '0';
-		data->moves++;
-		data->endgame = 1;
-		exit_game(data);
+		game->map[game->player->y + 1][game->player->x] = '0';
+		game->moves++;
+		game->endgame = 1;
+		exit_game(game);
 	}
-	else if (data->map[data->player->y][data->player->x] == '1' ||
-		data->map[data->player->y][data->player->x] == 'E')
-		data->player->y += 1;
+	else if (game->map[game->player->y][game->player->x] == '1'
+		|| game->map[game->player->y][game->player->x] == 'E')
+		game->player->y += 1;
 	else
 	{
-		if (data->map[data->player->y][data->player->x] == 'C')
-			data->n_colects -= 1;
-		data->map[data->player->y][data->player->x] = 'P';
-		data->map[data->player->y + 1][data->player->x] = '0';
-		data->moves++;
-		creat_map(data);
+		if (game->map[game->player->y][game->player->x] == 'C')
+			game->n_colects -= 1;
+		game->map[game->player->y][game->player->x] = 'P';
+		game->map[game->player->y + 1][game->player->x] = '0';
+		game->moves++;
+		generate_map(game);
 	}
 }
 
-void	move_s(t_game *data)
+void	player_s(t_game *game)
 {
-	if ((data->map[data->player->y][data->player->x] == 'E' 
-	&& data->n_colects == 0) ||
-	(data->map[data->player->y][data->player->x] == 'K'))
+	if ((game->map[game->player->y][game->player->x] == 'E'
+		&& game->n_colects == 0)
+		|| (game->map[game->player->y][game->player->x] == 'K'))
 	{
-		data->map[data->player->y - 1][data->player->x] = '0';
-		data->moves++;
-		data->endgame = 1;
-		exit_game(data);
+		game->map[game->player->y - 1][game->player->x] = '0';
+		game->moves++;
+		game->endgame = 1;
+		exit_game(game);
 	}
-	else if (data->map[data->player->y][data->player->x] == '1' ||
-		data->map[data->player->y][data->player->x] == 'E')
-		data->player->y -= 1;
+	else if (game->map[game->player->y][game->player->x] == '1'
+		|| game->map[game->player->y][game->player->x] == 'E')
+		game->player->y -= 1;
 	else
 	{
-		if (data->map[data->player->y][data->player->x] == 'C')
-			data->n_colects -= 1;
-		data->map[data->player->y][data->player->x] = 'P';
-		data->map[data->player->y - 1][data->player->x] = '0';
-		data->moves++;
-		creat_map(data);
+		if (game->map[game->player->y][game->player->x] == 'C')
+			game->n_colects -= 1;
+		game->map[game->player->y][game->player->x] = 'P';
+		game->map[game->player->y - 1][game->player->x] = '0';
+		game->moves++;
+		generate_map(game);
 	}
 }
 
-void	move_d(t_game *data)
+void	player_d(t_game *game)
 {
-	if ((data->map[data->player->y][data->player->x] == 'E' 
-	&& data->n_colects == 0) ||
-	(data->map[data->player->y][data->player->x] == 'K'))
+	if ((game->map[game->player->y][game->player->x] == 'E'
+		&& game->n_colects == 0)
+		|| (game->map[game->player->y][game->player->x] == 'K'))
 	{
-		data->map[data->player->y][data->player->x - 1] = '0';
-		data->moves++;
-		data->endgame = 1;
-		exit_game(data);
+		game->map[game->player->y][game->player->x - 1] = '0';
+		game->moves++;
+		game->endgame = 1;
+		exit_game(game);
 	}
-	else if (data->map[data->player->y][data->player->x] == '1' ||
-		data->map[data->player->y][data->player->x] == 'E')
-		data->player->x -= 1;
+	else if (game->map[game->player->y][game->player->x] == '1'
+		|| game->map[game->player->y][game->player->x] == 'E')
+		game->player->x -= 1;
 	else
 	{
-		if (data->map[data->player->y][data->player->x] == 'C')
-			data->n_colects -= 1;
-		data->map[data->player->y][data->player->x] = 'P';
-		data->map[data->player->y][data->player->x - 1] = '0';
-		data->moves++;
-		creat_map(data);
+		if (game->map[game->player->y][game->player->x] == 'C')
+			game->n_colects -= 1;
+		game->map[game->player->y][game->player->x] = 'P';
+		game->map[game->player->y][game->player->x - 1] = '0';
+		game->moves++;
+		generate_map(game);
 	}
 }
 
-void	move_a(t_game *data)
+void	player_a(t_game *game)
 {
-	if ((data->map[data->player->y][data->player->x] == 'E' 
-	&& data->n_colects == 0) ||
-	(data->map[data->player->y][data->player->x] == 'K'))
+	if ((game->map[game->player->y][game->player->x] == 'E'
+		&& game->n_colects == 0)
+		|| (game->map[game->player->y][game->player->x] == 'K'))
 	{
-		data->map[data->player->y][data->player->x + 1] = '0';
-		data->moves++;
-		data->endgame = 1;
-		exit_game(data);
+		game->map[game->player->y][game->player->x + 1] = '0';
+		game->moves++;
+		game->endgame = 1;
+		exit_game(game);
 	}
-	else if (data->map[data->player->y][data->player->x] == '1' ||
-		data->map[data->player->y][data->player->x] == 'E')
-		data->player->x += 1;
+	else if (game->map[game->player->y][game->player->x] == '1'
+		|| game->map[game->player->y][game->player->x] == 'E')
+		game->player->x += 1;
 	else
 	{
-		if (data->map[data->player->y][data->player->x] == 'C')
-			data->n_colects -= 1;
-		data->map[data->player->y][data->player->x] = 'P';
-		data->map[data->player->y][data->player->x + 1] = '0';
-		data->moves++;
-		creat_map(data);
+		if (game->map[game->player->y][game->player->x] == 'C')
+			game->n_colects -= 1;
+		game->map[game->player->y][game->player->x] = 'P';
+		game->map[game->player->y][game->player->x + 1] = '0';
+		game->moves++;
+		generate_map(game);
 	}
 }
