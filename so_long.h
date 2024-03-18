@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felipe <felipe@student.42.fr>              +#+  +:+       +#+        */
+/*   By: fmontes <fmontes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:16:34 by felipe            #+#    #+#             */
-/*   Updated: 2024/03/15 16:16:41 by felipe           ###   ########.fr       */
+/*   Updated: 2024/03/18 10:22:07 by fmontes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# include "../minilibx/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <X11/X.h>
 # include "./gnl/get_next_line.h"
 # include "./ft_printf/libftprintf.h"
